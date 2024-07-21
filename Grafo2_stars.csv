@@ -1,0 +1,153 @@
+Name,Constellation,Magnitude,Distance (ly)
+Andromeda,Terra,0,2900000.0
+Andromeda,Aquarius,0,2902000.0
+Aquarius,Terra,0,2000.0
+Aquarius, Auriga,0,1000.0
+Auriga,Terra,0,4100.0
+Cancer,Terra,0,577.0
+Cancer,Leo,0,577.0
+Cancer,Orion,0,77.0
+Orion,Gemini,0,177.0
+Canes Venatici,Terra,0,33900.0
+Canis Major,Terra,0,2300.0
+Capricornus,Terra,0,24800.0
+Cassiopeia,Terra,0,5000.0
+Cetus,Terra,0,60000000.0
+Coma Berenices,Terra,0,56400.0
+Cygnus,Terra,0,825.0
+Draco,Terra,0,40000000.0
+Gemini,Terra,0,2800.0
+Hercules,Terra,0,22800.0
+Hydra,Terra,0,1500.0
+Leo,Terra,0,35000000.0
+Lepus,Terra,0,41100.0
+Lyra,Terra,0,4100.0
+Monocerus,Terra,0,3000.0
+Ophiucus,Terra,0,14400.0
+Orion,Pegasus,0,2600.0
+Orion,Terra,0,1600.0
+Pegasus,Terra,0,33600.0
+Perseus,Terra,0,1400.0
+Pisces,Terra,0,35000000.0
+Puppis,Terra,0,1600.0
+Sagitta,Terra,0,11700.0
+Sagittarius,Terra,0,2.15
+Scorpius,Terra,0,800.0
+Scutum,Terra,0,5000.0
+Serpens Caput,Terra,0,24500.0
+Serpens Claudia,Terra,0,7000.0
+Taurus,Terra,0,380.0
+Triangulum,Terra,0,3000000.0
+Ursa Major,Terra,0,510.0
+Virgo,Terra,0,50000000.0
+Vulpecula,Terra,0,1.25
+NGC 1952 Crab Nebula,Taurus,8.4,6300.0
+NGC 7089,Aquarius,6.5,37500.0
+NGC 5272,Canes Venatici,6.2,33900.0
+NGC 6121,Scorpius,5.6,7200.0
+NGC 5904,Serpens Caput,5.6,24500.0
+NGC 6405 Butterfly Cluster,Scorpius,5.3,2000.0
+NGC 6475 Ptolemy¹s Cluster,Scorpius,4.1,800.0
+NGC 6523 Lagoon Nebula,Sagittarius,6,5200.0
+NGC 6333,Ophiucus,7.7,26700.0
+NGC 6254,Ophiucus,6.6,14400.0
+NGC 6705 Wild Duck Cluster,Scutum,6.3,6000.0
+NGC 6218,Ophiucus,6.7,16000.0
+NGC 6205 Hercules Globular Cluster,Hercules,5.8,22800.0
+NGC 6402,Ophiucus,7.6,27400.0
+NGC 7078,Pegasus,6.2,33600.0
+NGC 6611 Eagle Nebula Cluster,Serpens Claudia,6.4,7000.0
+NGC 6618 Omega. Swan. Horseshoe Nebula,Sagittarius,7,5000.0
+NGC 6613,Sagittarius,7.5,4900.0
+NGC 6273,Ophiucus,6.8,27100.0
+NGC 6514 Trifid Nebula,Sagittarius,9,5200.0
+NGC 6531,Sagittarius,6.5,4.25
+NGC 6656,Sagittarius,5.1,10100.0
+NGC 6494,Sagittarius,6.9,2.15
+NGC 6603 Milky Way Patch,Sagittarius,4.6,10000.0
+IC 4725,Sagittarius,6.5,2000.0
+NGC 6694,Scutum,8,5000.0
+NGC 6853 Dumbbell Nebula,Vulpecula,7.4,1.25
+NGC 6626,Sagittarius,6.8,17900.0
+NGC 6913,Cygnus,7.1,4000.0
+NGC 7099,Capricornus,7.2,24800.0
+NGC 224 Andromeda Galaxy,Andromeda,3.4,2900000.0
+NGC 221 Satellite of M31,Andromeda,8.1,2900000.0
+NGC 598 Triangulum/Pinwheel Galaxy,Triangulum,5.7,3000000.0
+NGC 1039,Perseus,5.5,1400.0
+NGC 2168,Gemini,5.3,2800.0
+NGC 1960,Auriga,6.3,4100.0
+NGC 2099,Auriga,6.2,4400.0
+NGC 1912,Auriga,7.4,4200.0
+NGC 7092,Cygnus,5.2,825.0
+Winecke 4,Ursa Major,9 & 9.3,510.0
+NGC 2287,Canis Major,4.6,2300.0
+NGC 1976 Great Orion Nebula,Orion,4,1600.0
+NGC 1982 de Mairan¹s Nebula,Orion,9,1600.0
+NGC 2632 Beehive Cluster (Praesepe),Cancer,3.7,577.0
+Pleiades. Subaru. Seven Sisters,Taurus,1.6,380.0
+NGC 2437,Puppis,6,5400.0
+NGC 2422,Puppis,5.2,1600.0
+NGC 2548,Hydra,5.5,1500.0
+NGC 4472,Virgo,8.4,60000000.0
+NGC 2323,Monocerus,6.3,3000.0
+NGC 5194 Whirlpool Galaxy,Canes Venatici,8.4,37000000.0
+NGC 7654,Cassiopeia,7.3,5000.0
+NGC 5024,Coma Berenices,7.6,56400.0
+NGC 6715,Sagittarius,7.6,82800.0
+NGC 6809,Sagittarius,6.3,16600.0
+NGC 6779,Lyra,8.3,31600.0
+NGC 6720 Ring Nebula,Lyra,8.8,4100.0
+NGC 4579,Virgo,9.7,60000000.0
+NGC 4621,Virgo,9.6,60000000.0
+NGC 4649,Virgo,8.8,60000000.0
+NGC 4303,Virgo,9.7,60000000.0
+NGC 6266,Ophiucus,6.5,21500.0
+NGC 5055 Sunflower Galaxy,Canes Venatici,8.6,37000000.0
+NGC 4826 Blackeye Galaxy,Coma Berenices,8.5,19000000.0
+NGC 3623,Leo,9.3,35000000.0
+NGC 3627,Leo,8.9,35000000.0
+NGC 2682,Cancer,6.1,2700.0
+NGC 4590,Hydra,7.8,33300.0
+NGC 6637,Sagittarius,7.6,26700.0
+NGC 6681,Sagittarius,7.9,28000.0
+NGC 6838,Sagitta,8.3,11700.0
+NGC 6981,Aquarius,9.3,52800.0
+NGC 6994  Group of 4 stars,Aquarius,9,2000.0
+NGC 628,Pisces,9.4,35000000.0
+NGC 6864,Sagittarius,8.5,57700.0
+NGC 650 Little Dumbell. Cork. Butterfly Nebula,Perseus,10.1,3400.0
+NGC 1068 Cetus A,Cetus,8.9,60000000.0
+NGC 2068,Orion,8.3,1600.0
+NGC 1904,Lepus,7.7,41100.0
+NGC 6093,Scorpius,7.3,27400.0
+NGC 3031 Bode¹s Galaxy,Ursa Major,6.9,12000000.0
+NGC 3034 Cigar Galaxy,Ursa Major,8.4,12000000.0
+NGC 5236 Southern Pinwheel Galaxy,Hydra,7.6,15000000.0
+NGC 4374,Virgo,9.1,60000000.0
+NGC 4382,Coma Berenices,9.1,60000000.0
+NGC 4406,Virgo,8.9,60000000.0
+NGC 4486 Virgo A,Virgo,8.6,60000000.0
+NGC 4501,Coma Berenices,9.6,60000000.0
+NGC 4552,Virgo,9.8,60000000.0
+NGC 4569,Virgo,9.5,60000000.0
+NGC 4548,Coma Berenices,10.2,60000000.0
+NGC 6341,Hercules,6.4,26400.0
+NGC 2447,Puppis,6,3600.0
+NGC 4736,Canes Venatici,8.2,14500000.0
+NGC 3351,Leo,9.7,38000000.0
+NGC 3368,Leo,9.2,38000000.0
+NGC 3587 Owl Nebula,Ursa Major,9.9,2600.0
+NGC 4192,Coma Berenices,10.1,60000000.0
+NGC 4254,Coma Berenices,9.9,60000000.0
+NGC 4321,Coma Berenices,9.3,60000000.0
+NGC 5457 Pinwheel Galaxy,Ursa Major,7.9,27000000.0
+NGC 5866 Spindle Galaxy,Draco,9.9,40000000.0
+NGC 581,Cassiopeia,7.4,8000.0
+NGC 4594 Sombrero Galaxy,Virgo,8,50000000.0
+NGC 3379,Leo,9.3,38000000.0
+NGC 4258,Canes Venatici,8.4,25000000.0
+NGC 6171,Ophiucus,7.9,19600.0
+NGC 3556,Ursa Major,10,45000000.0
+NGC 3992,Ursa Major,9.8,55000000.0
+NGC 205 Satellite of M31,Andromeda,8.5,2900000.0
