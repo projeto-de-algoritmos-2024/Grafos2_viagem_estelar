@@ -10,7 +10,8 @@
 | Matrícula | Aluno                            |
 | ---       | ---                              |
 | 19/0048760 | Wellington Jonathan de Souza Rodrigues |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
+| 20/2063346  | José Filipi Brito Souza |
+
 ## Sobre
 O objetivo do código é criar um grafo que representa as conexões entre as estrelas e a Terra, considerando sua magnitude e sua distância em anos-luz da Terra. O grafo tem como fonte com alterações para melhor visualização e compreensão das conexões. Os principais objetivos do código são:
 
@@ -19,7 +20,7 @@ O objetivo do código é criar um grafo que representa as conexões entre as est
 - Utilizar o algoritmo de Dijkstra para calcular quais estrelas podem ser encontradas quando informada uma distância máxima da Terra.
 - Utilizar o algoritmo de Prim para gerar a árvore geradora mínima e calcular o custo total em anos-luz para passar por todas as estrelas da árvore referente ao grafo informado.
 
-Em resumo, esse código permite observar os dois algoritmos dentro de um contexto de distância das estrelas para a Terra.
+Em resumo, esse código permite observar os dois algoritmos dentro de um contexto de distância  para uma viagem estelar .
 
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
