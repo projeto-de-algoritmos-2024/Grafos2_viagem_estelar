@@ -3,8 +3,8 @@
  
 ## Grafos Estrelas do Céu
 
-**Número da Lista**: X<br>
-**Conteúdo da Disciplina**: XXXXXXXXXX<br>
+**Número da Lista**: 2<br>
+**Conteúdo da Disciplina**: Grafos 2<br>
 
 ## Alunos
 | Matrícula | Aluno                            |
@@ -20,14 +20,13 @@ O objetivo do código é criar um grafo que representa as conexões entre as est
 - Utilizar o algoritmo de Dijkstra para calcular quais estrelas podem ser encontradas quando informada uma distância máxima da Terra.
 - Utilizar o algoritmo de Prim para gerar a árvore geradora mínima e calcular o custo total em anos-luz para passar por todas as estrelas da árvore referente ao grafo informado.
 
-Em resumo, esse código permite observar os dois algoritmos dentro de um contexto de distância  para uma viagem estelar .
-
+Além disso, o projeto também possui uma interface de interação 3D, onde é possível visualizar o grafo em um navegador com suporte a JS e interagir com manipulações dos nós, que representam corpos celestes. Selecionando dois nós é possível visualizar quando o menor caminho em anos-luz através do algoritmo de Dijkstra.
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
 
 ## Instalação
 **Linguagem**: Python 3.x
-**Framework**: Jupyter Notebook
+**Framework**: Jupyter Notebook & Flask 
 
 ### Pré-requisitos
 Certifique-se de ter as seguintes ferramentas e bibliotecas instaladas:
@@ -50,11 +49,13 @@ Certifique-se de ter as seguintes ferramentas e bibliotecas instaladas:
 - Python 3.x (https://www.python.org/downloads/)
 - NetworkX (biblioteca para criar e manipular grafos): 
 - Matplotlib (biblioteca para plotar o grafo): 
+- Flask (Framework de backend em python para utilização da API)
 
 ```
 pip install pandas
 pip install networkx
 pip install matplotlib
+pip install flask
 
 ```
 
