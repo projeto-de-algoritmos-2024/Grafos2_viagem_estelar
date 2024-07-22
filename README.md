@@ -119,5 +119,4 @@ destination_vertex = 'Leo'
 
 ## Vídeo explicando o projeto
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Gj0pI7Yvr_o?si=y7sAE0LvY9sfk4cq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
+[![Grafos 2](https://img.youtube.com/vi/Gj0pI7Yvr_o/0.jpg)](https://www.youtube.com/watch?v=Gj0pI7Yvr_o)
