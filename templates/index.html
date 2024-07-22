@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Visualization</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/fonts/helvetiker_regular.typeface.json"></script>
+    <script>
+        // Setup the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add orbit controls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        camera.position.z = 100;
+
+        // Add a star field background
+        const starGeometry = new THREE.BufferGeometry();
+        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
+        const starVertices = [];
+        for (let i = 0; i < 10000; i++) {
+            starVertices.push((Math.random() - 0.5) * 2000);
+            starVertices.push((Math.random() - 0.5) * 2000);
+            starVertices.push((Math.random() - 0.5) * 2000);
+        }
+        starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+        const stars = new THREE.Points(starGeometry, starMaterial);
+        scene.add(stars);
+
+        // Function to add nodes and edges to the scene
+        const nodeMeshes = {};
+        const edgeLines = {};
+        const edgeLabels = {};  // Store edge labels here
+        const nodeLabels = {};  // Store node labels here
+        let selectedNodes = [];
+
+        // Raycaster and mouse vector
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        function addGraphData(nodes, edges) {
+            const nodeMaterialStar = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const nodeMaterialConstellation = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const nodeGeometry = new THREE.SphereGeometry(1, 32, 32);
+
+            // Load font
+            const loader = new THREE.FontLoader();
+            loader.load('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+                // Add nodes
+                nodes.forEach(node => {
+                    const nodeMesh = new THREE.Mesh(nodeGeometry, node.type === 'star' ? nodeMaterialStar : nodeMaterialConstellation);
+                    nodeMesh.position.set(Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50);
+                    nodeMesh.userData = { id: node.id, type: node.type };
+
+                    // Add label for stars and constellations
+                    const label = createLabel(node.id, font);
+                    label.position.copy(nodeMesh.position);
+                    scene.add(label);
+                    nodeLabels[node.id] = label;
+
+                    nodeMeshes[node.id] = nodeMesh;
+                    scene.add(nodeMesh);
+                });
+
+                // Add edges
+                const edgeMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+                edges.forEach(edge => {
+                    const edgeGeometry = new THREE.BufferGeometry().setFromPoints([
+                        nodeMeshes[edge.source].position,
+                        nodeMeshes[edge.target].position
+                    ]);
+                    const edgeLine = new THREE.Line(edgeGeometry, edgeMaterial);
+                    edgeLines[`${edge.source}-${edge.target}`] = edgeLine;
+                    scene.add(edgeLine);
+                    
+                    // Create and add edge label
+                    const edgeLabel = createLabel(edge.distance.toFixed(2) + ' anos-luz', font);
+                    edgeLabel.position.copy(new THREE.Vector3().addVectors(nodeMeshes[edge.source].position, nodeMeshes[edge.target].position).divideScalar(2));
+                    scene.add(edgeLabel);
+                    edgeLabels[`${edge.source}-${edge.target}`] = edgeLabel;
+                });
+            });
+        }
+
+        function createLabel(text, font) {
+            const geometry = new THREE.TextGeometry(text, {
+                font: font,
+                size: 2,
+                height: 1.0
+            });
+            const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const labelMesh = new THREE.Mesh(geometry, material);
+
+            // Ajuste a posição do labelMesh conforme necessário
+            return labelMesh;
+        }
+
+        function findShortestPath(source, target) {
+            fetch('/shortest-path', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ source, target })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                    return;
+                }
+
+                // Hide all nodes and edges
+                Object.keys(nodeMeshes).forEach(nodeId => {
+                    const nodeMesh = nodeMeshes[nodeId];
+                    nodeMesh.visible = false; // Hide all nodes
+                });
+                Object.keys(edgeLines).forEach(edgeKey => {
+                    const edgeLine = edgeLines[edgeKey];
+                    edgeLine.visible = false; // Hide all edges
+                    const edgeLabel = edgeLabels[edgeKey];
+                    if (edgeLabel) {
+                        edgeLabel.visible = false; // Hide all edge labels
+                    }
+                });
+
+                // Show only nodes and edges on the path
+                const pathEdges = new Set();
+                const pathNodes = new Set();
+
+                data.path_edges.forEach(([source, target]) => {
+                    pathEdges.add(`${source}-${target}`);
+                    pathEdges.add(`${target}-${source}`);
+                    pathNodes.add(source);
+                    pathNodes.add(target);
+
+                    if (nodeMeshes[source]) {
+                        nodeMeshes[source].visible = true; // Show nodes on the path
+                    }
+                    if (nodeMeshes[target]) {
+                        nodeMeshes[target].visible = true; // Show nodes on the path
+                    }
+                    const pathGeometry = new THREE.BufferGeometry().setFromPoints([
+                        nodeMeshes[source].position,
+                        nodeMeshes[target].position
+                    ]);
+                    const pathLine = new THREE.Line(pathGeometry, new THREE.LineBasicMaterial({ color: 0x00ff00 }));
+                    scene.add(pathLine);
+                });
+
+                // Update visibility of edge labels
+                Object.keys(edgeLabels).forEach(edgeKey => {
+                    if (pathEdges.has(edgeKey)) {
+                        edgeLabels[edgeKey].visible = true; // Show edge labels on the path
+                    } else {
+                        edgeLabels[edgeKey].visible = false; // Hide edge labels not on the path
+                    }
+                });
+
+                // Update visibility of node labels
+                Object.keys(nodeLabels).forEach(nodeId => {
+                    if (pathNodes.has(nodeId)) {
+                        nodeLabels[nodeId].visible = true; // Show node labels on the path
+                    } else {
+                        nodeLabels[nodeId].visible = false; // Hide node labels not on the path
+                    }
+                });
+
+                // Display the path info (star names and distances)
+                data.path_info.forEach(info => {
+                    console.log(`From: ${info.source} to: ${info.target}, Distance: ${info.distance} ly`);
+                    // Optionally add text labels to the scene
+                });
+            })
+            .catch(error => console.error('Error fetching shortest path:', error));
+        }
+
+        // Handle mouse click events to select nodes
+        window.addEventListener('click', (event) => {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(Object.values(nodeMeshes));
+
+            if (intersects.length > 0) {
+                const selectedNode = intersects[0].object.userData.id;
+
+                if (selectedNodes.length === 0) {
+                    selectedNodes.push(selectedNode);
+                } else if (selectedNodes.length === 1) {
+                    selectedNodes.push(selectedNode);
+                    findShortestPath(selectedNodes[0], selectedNodes[1]);
+                    selectedNodes = [];
+                } else {
+                    selectedNodes = [selectedNode];
+                }
+            }
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Fetch and add graph data
+        fetch('/graph-data')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                    return;
+                }
+                addGraphData(data.nodes, data.edges);
+            })
+            .catch(error => console.error('Error fetching graph data:', error));
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
