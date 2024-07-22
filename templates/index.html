@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph Visualization</title>
+    <title>Visualização de Grafo</title>
     <style>
         body { margin: 0; overflow: hidden; }
         canvas { display: block; }
@@ -15,103 +15,103 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/fonts/helvetiker_regular.typeface.json"></script>
     <script>
-        // Setup the scene, camera, and renderer
-        const scene = new THREE.Scene();
+        // Configurar a cena, câmera e renderizador
+        const cena = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        const renderizador = new THREE.WebGLRenderer();
+        renderizador.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderizador.domElement);
 
-        // Add orbit controls
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        // Adicionar controles de órbita
+        const controles = new THREE.OrbitControls(camera, renderizador.domElement);
         camera.position.z = 100;
 
-        // Add a star field background
-        const starGeometry = new THREE.BufferGeometry();
-        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
-        const starVertices = [];
+        // Adicionar um fundo de campo de estrelas
+        const geometriaEstrelas = new THREE.BufferGeometry();
+        const materialEstrelas = new THREE.PointsMaterial({ color: 0xffffff });
+        const verticesEstrelas = [];
         for (let i = 0; i < 10000; i++) {
-            starVertices.push((Math.random() - 0.5) * 2000);
-            starVertices.push((Math.random() - 0.5) * 2000);
-            starVertices.push((Math.random() - 0.5) * 2000);
+            verticesEstrelas.push((Math.random() - 0.5) * 2000);
+            verticesEstrelas.push((Math.random() - 0.5) * 2000);
+            verticesEstrelas.push((Math.random() - 0.5) * 2000);
         }
-        starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-        const stars = new THREE.Points(starGeometry, starMaterial);
-        scene.add(stars);
+        geometriaEstrelas.setAttribute('position', new THREE.Float32BufferAttribute(verticesEstrelas, 3));
+        const estrelas = new THREE.Points(geometriaEstrelas, materialEstrelas);
+        cena.add(estrelas);
 
-        // Function to add nodes and edges to the scene
-        const nodeMeshes = {};
-        const edgeLines = {};
-        const edgeLabels = {};  // Store edge labels here
-        const nodeLabels = {};  // Store node labels here
-        let selectedNodes = [];
+        // Função para adicionar nós e arestas à cena
+        const malhasNos = {};
+        const linhasArestas = {};
+        const etiquetasArestas = {};  // Armazenar etiquetas de arestas aqui
+        const etiquetasNos = {};  // Armazenar etiquetas de nós aqui
+        let nosSelecionados = [];
 
-        // Raycaster and mouse vector
+        // Raycaster e vetor do mouse
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
-        function addGraphData(nodes, edges) {
-            const nodeMaterialStar = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-            const nodeMaterialConstellation = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-            const nodeGeometry = new THREE.SphereGeometry(1, 32, 32);
+        function adicionarDadosGrafo(nos, arestas) {
+            const materialNoEstrela = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const materialNoConstelacao = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const geometriaNo = new THREE.SphereGeometry(1, 32, 32);
 
-            // Load font
-            const loader = new THREE.FontLoader();
-            loader.load('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/fonts/helvetiker_regular.typeface.json', function (font) {
-                // Add nodes
-                nodes.forEach(node => {
-                    const nodeMesh = new THREE.Mesh(nodeGeometry, node.type === 'star' ? nodeMaterialStar : nodeMaterialConstellation);
-                    nodeMesh.position.set(Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50);
-                    nodeMesh.userData = { id: node.id, type: node.type };
+            // Carregar fonte
+            const carregador = new THREE.FontLoader();
+            carregador.load('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/fonts/helvetiker_regular.typeface.json', function (fonte) {
+                // Adicionar nós
+                nos.forEach(no => {
+                    const malhaNo = new THREE.Mesh(geometriaNo, no.type === 'estrela' ? materialNoEstrela : materialNoConstelacao);
+                    malhaNo.position.set(Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50);
+                    malhaNo.userData = { id: no.id, type: no.type };
 
-                    // Add label for stars and constellations
-                    const label = createLabel(node.id, font);
-                    label.position.copy(nodeMesh.position);
-                    scene.add(label);
-                    nodeLabels[node.id] = label;
+                    // Adicionar etiqueta para estrelas e constelações
+                    const etiqueta = criarEtiqueta(no.id, fonte);
+                    etiqueta.position.copy(malhaNo.position);
+                    cena.add(etiqueta);
+                    etiquetasNos[no.id] = etiqueta;
 
-                    nodeMeshes[node.id] = nodeMesh;
-                    scene.add(nodeMesh);
+                    malhasNos[no.id] = malhaNo;
+                    cena.add(malhaNo);
                 });
 
-                // Add edges
-                const edgeMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
-                edges.forEach(edge => {
-                    const edgeGeometry = new THREE.BufferGeometry().setFromPoints([
-                        nodeMeshes[edge.source].position,
-                        nodeMeshes[edge.target].position
+                // Adicionar arestas
+                const materialAresta = new THREE.LineBasicMaterial({ color: 0xffffff });
+                arestas.forEach(aresta => {
+                    const geometriaAresta = new THREE.BufferGeometry().setFromPoints([
+                        malhasNos[aresta.source].position,
+                        malhasNos[aresta.target].position
                     ]);
-                    const edgeLine = new THREE.Line(edgeGeometry, edgeMaterial);
-                    edgeLines[`${edge.source}-${edge.target}`] = edgeLine;
-                    scene.add(edgeLine);
+                    const linhaAresta = new THREE.Line(geometriaAresta, materialAresta);
+                    linhasArestas[`${aresta.source}-${aresta.target}`] = linhaAresta;
+                    cena.add(linhaAresta);
                     
-                    // Create and add edge label
-                    const edgeLabel = createLabel(edge.distance.toFixed(2) + ' anos-luz', font);
-                    edgeLabel.position.copy(new THREE.Vector3().addVectors(nodeMeshes[edge.source].position, nodeMeshes[edge.target].position).divideScalar(2));
-                    scene.add(edgeLabel);
-                    edgeLabels[`${edge.source}-${edge.target}`] = edgeLabel;
+                    // Criar e adicionar etiqueta de aresta
+                    const etiquetaAresta = criarEtiqueta(aresta.distance.toFixed(2) + ' anos-luz', fonte);
+                    etiquetaAresta.position.copy(new THREE.Vector3().addVectors(malhasNos[aresta.source].position, malhasNos[aresta.target].position).divideScalar(2));
+                    cena.add(etiquetaAresta);
+                    etiquetasArestas[`${aresta.source}-${aresta.target}`] = etiquetaAresta;
                 });
             });
         }
 
-        function createLabel(text, font) {
-            const geometry = new THREE.TextGeometry(text, {
-                font: font,
+        function criarEtiqueta(texto, fonte) {
+            const geometria = new THREE.TextGeometry(texto, {
+                font: fonte,
                 size: 2,
                 height: 1.0
             });
             const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-            const labelMesh = new THREE.Mesh(geometry, material);
+            const malhaEtiqueta = new THREE.Mesh(geometria, material);
 
-            // Ajuste a posição do labelMesh conforme necessário
-            return labelMesh;
+            // Ajuste a posição do malhaEtiqueta conforme necessário
+            return malhaEtiqueta;
         }
 
-        function findShortestPath(source, target) {
+        function encontrarCaminhoMaisCurto(origem, destino) {
             fetch('/shortest-path', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ source, target })
+                body: JSON.stringify({ source: origem, target: destino })
             })
             .then(response => response.json())
             .then(data => {
@@ -120,103 +120,137 @@
                     return;
                 }
 
-                // Hide all nodes and edges
-                Object.keys(nodeMeshes).forEach(nodeId => {
-                    const nodeMesh = nodeMeshes[nodeId];
-                    nodeMesh.visible = false; // Hide all nodes
+                // Ocultar todos os nós e arestas
+                Object.keys(malhasNos).forEach(idNo => {
+                    const malhaNo = malhasNos[idNo];
+                    malhaNo.visible = false; // Ocultar todos os nós
                 });
-                Object.keys(edgeLines).forEach(edgeKey => {
-                    const edgeLine = edgeLines[edgeKey];
-                    edgeLine.visible = false; // Hide all edges
-                    const edgeLabel = edgeLabels[edgeKey];
-                    if (edgeLabel) {
-                        edgeLabel.visible = false; // Hide all edge labels
+                Object.keys(linhasArestas).forEach(chaveAresta => {
+                    const linhaAresta = linhasArestas[chaveAresta];
+                    linhaAresta.visible = false; // Ocultar todas as arestas
+                    const etiquetaAresta = etiquetasArestas[chaveAresta];
+                    if (etiquetaAresta) {
+                        etiquetaAresta.visible = false; // Ocultar todas as etiquetas de arestas
                     }
                 });
 
-                // Show only nodes and edges on the path
-                const pathEdges = new Set();
-                const pathNodes = new Set();
+                // Mostrar apenas nós e arestas no caminho
+                const arestasCaminho = new Set();
+                const nosCaminho = new Set();
 
-                data.path_edges.forEach(([source, target]) => {
-                    pathEdges.add(`${source}-${target}`);
-                    pathEdges.add(`${target}-${source}`);
-                    pathNodes.add(source);
-                    pathNodes.add(target);
+                data.path_edges.forEach(([origem, destino]) => {
+                    arestasCaminho.add(`${origem}-${destino}`);
+                    arestasCaminho.add(`${destino}-${origem}`);
+                    nosCaminho.add(origem);
+                    nosCaminho.add(destino);
 
-                    if (nodeMeshes[source]) {
-                        nodeMeshes[source].visible = true; // Show nodes on the path
+                    if (malhasNos[origem]) {
+                        malhasNos[origem].visible = true; // Mostrar nós no caminho
                     }
-                    if (nodeMeshes[target]) {
-                        nodeMeshes[target].visible = true; // Show nodes on the path
+                    if (malhasNos[destino]) {
+                        malhasNos[destino].visible = true; // Mostrar nós no caminho
                     }
-                    const pathGeometry = new THREE.BufferGeometry().setFromPoints([
-                        nodeMeshes[source].position,
-                        nodeMeshes[target].position
+                    const geometriaCaminho = new THREE.BufferGeometry().setFromPoints([
+                        malhasNos[origem].position,
+                        malhasNos[destino].position
                     ]);
-                    const pathLine = new THREE.Line(pathGeometry, new THREE.LineBasicMaterial({ color: 0x00ff00 }));
-                    scene.add(pathLine);
+                    const linhaCaminho = new THREE.Line(geometriaCaminho, new THREE.LineBasicMaterial({ color: 0x00ff00 }));
+                    cena.add(linhaCaminho);
                 });
 
-                // Update visibility of edge labels
-                Object.keys(edgeLabels).forEach(edgeKey => {
-                    if (pathEdges.has(edgeKey)) {
-                        edgeLabels[edgeKey].visible = true; // Show edge labels on the path
+                // Atualizar visibilidade das etiquetas de arestas
+                Object.keys(etiquetasArestas).forEach(chaveAresta => {
+                    if (arestasCaminho.has(chaveAresta)) {
+                        etiquetasArestas[chaveAresta].visible = true; // Mostrar etiquetas de arestas no caminho
                     } else {
-                        edgeLabels[edgeKey].visible = false; // Hide edge labels not on the path
+                        etiquetasArestas[chaveAresta].visible = false; // Ocultar etiquetas de arestas que não estão no caminho
                     }
                 });
 
-                // Update visibility of node labels
-                Object.keys(nodeLabels).forEach(nodeId => {
-                    if (pathNodes.has(nodeId)) {
-                        nodeLabels[nodeId].visible = true; // Show node labels on the path
+                // Atualizar visibilidade das etiquetas de nós
+                Object.keys(etiquetasNos).forEach(idNo => {
+                    if (nosCaminho.has(idNo)) {
+                        etiquetasNos[idNo].visible = true; // Mostrar etiquetas de nós no caminho
                     } else {
-                        nodeLabels[nodeId].visible = false; // Hide node labels not on the path
+                        etiquetasNos[idNo].visible = false; // Ocultar etiquetas de nós que não estão no caminho
                     }
                 });
 
-                // Display the path info (star names and distances)
+                // Exibir as informações do caminho (nomes das estrelas e distâncias)
                 data.path_info.forEach(info => {
-                    console.log(`From: ${info.source} to: ${info.target}, Distance: ${info.distance} ly`);
-                    // Optionally add text labels to the scene
+                    console.log(`De: ${info.source} para: ${info.target}, Distância: ${info.distance} anos-luz`);
+                    // Opcionalmente adicionar etiquetas de texto à cena
                 });
             })
-            .catch(error => console.error('Error fetching shortest path:', error));
+            .catch(error => console.error('Erro ao buscar o caminho mais curto:', error));
         }
 
-        // Handle mouse click events to select nodes
+        // Lidar com eventos de clique do mouse para selecionar nós
         window.addEventListener('click', (event) => {
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
             raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(Object.values(nodeMeshes));
+            const intersectados = raycaster.intersectObjects(Object.values(malhasNos));
 
-            if (intersects.length > 0) {
-                const selectedNode = intersects[0].object.userData.id;
+            if (intersectados.length > 0) {
+                const noSelecionado = intersectados[0].object.userData.id;
 
-                if (selectedNodes.length === 0) {
-                    selectedNodes.push(selectedNode);
-                } else if (selectedNodes.length === 1) {
-                    selectedNodes.push(selectedNode);
-                    findShortestPath(selectedNodes[0], selectedNodes[1]);
-                    selectedNodes = [];
+                if (nosSelecionados.length === 0) {
+                    nosSelecionados.push(noSelecionado);
+                } else if (nosSelecionados.length === 1) {
+                    nosSelecionados.push(noSelecionado);
+                    encontrarCaminhoMaisCurto(nosSelecionados[0], nosSelecionados[1]);
+                    nosSelecionados = [];
                 } else {
-                    selectedNodes = [selectedNode];
+                    nosSelecionados = [noSelecionado];
                 }
             }
         });
 
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            renderer.render(scene, camera);
+        // Lidar com eventos de teclado para resetar os nós selecionados
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                // Redefinir nós selecionados
+                nosSelecionados = [];
+                
+                // Mostrar todos os nós e arestas
+                Object.keys(malhasNos).forEach(idNo => {
+                    malhasNos[idNo].visible = true;
+                });
+                Object.keys(linhasArestas).forEach(chaveAresta => {
+                    linhasArestas[chaveAresta].visible = true;
+                    const etiquetaAresta = etiquetasArestas[chaveAresta];
+                    if (etiquetaAresta) {
+                        etiquetaAresta.visible = true;
+                    }
+                });
+
+                // Atualizar visibilidade das etiquetas de nós
+                Object.keys(etiquetasNos).forEach(idNo => {
+                    etiquetasNos[idNo].visible = true;
+                });
+
+                // Remover arestas do caminho anteriormente encontrado, se necessário
+                cena.children.forEach(child => {
+                    if (child instanceof THREE.Line && child.material.color.equals(new THREE.Color(0x00ff00))) {
+                        cena.remove(child);
+                    }
+                });
+
+                console.log('Nós selecionados resetados');
+            }
+        });
+
+        function animar() {
+            requestAnimationFrame(animar);
+            controles.update();
+            renderizador.render(cena, camera);
         }
 
-        animate();
+        animar();
 
-        // Fetch and add graph data
+        // Buscar e adicionar dados do grafo
         fetch('/graph-data')
             .then(response => response.json())
             .then(data => {
@@ -224,15 +258,15 @@
                     console.error(data.error);
                     return;
                 }
-                addGraphData(data.nodes, data.edges);
+                adicionarDadosGrafo(data.nodes, data.edges);
             })
-            .catch(error => console.error('Error fetching graph data:', error));
+            .catch(error => console.error('Erro ao buscar dados do grafo:', error));
 
-        // Handle window resize
+        // Lidar com redimensionamento da janela
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderizador.setSize(window.innerWidth, window.innerHeight);
         });
     </script>
 </body>

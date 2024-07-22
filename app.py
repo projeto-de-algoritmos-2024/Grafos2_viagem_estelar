@@ -20,7 +20,7 @@ for _, row in df.iterrows():
     G[constellation].append((star, distance))
 
 
-# Algoritmo de Dijkstr
+# Algoritmo de Dijkstra
 def dijkstra(graph, start, end):
     queue = [(0, start, [])]
     seen = set()
@@ -28,7 +28,7 @@ def dijkstra(graph, start, end):
 
     while queue:
         (cost, node, path) = heapq.heappop(queue)
-
+    
         if node in seen:
             continue
 
