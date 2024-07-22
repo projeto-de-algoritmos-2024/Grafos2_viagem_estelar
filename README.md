@@ -90,6 +90,8 @@ pip install flask
 1. Utilize o comando 'python3 app.py'
 2. Vá para o endpoint indicado no terminal, por exemplo: ' * Running on http://127.0.0.1:5000 '
 3. Selecione dois nós do grafo
+4. Caso queira visualizar o detalhe de cada nó, utilize o console pressionando a tecla 'F12'
+5. Para iniciar uma nova busca, pressione a tecla 'ESC' e o grafo será reiniciado
 
 ## Exemplo
 Aqui está um exemplo de como utilizar o código para criar e visualizar o grafo estelar:
@@ -114,3 +116,8 @@ destination_vertex = 'Leo'
 
 
 ```
+
+## Vídeo explicando o projeto
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Gj0pI7Yvr_o?si=y7sAE0LvY9sfk4cq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
