@@ -22,7 +22,27 @@ O objetivo do código é criar um grafo que representa as conexões entre as est
 
 Além disso, o projeto também possui uma interface de interação 3D, onde é possível visualizar o grafo em um navegador com suporte a JS e interagir com manipulações dos nós, que representam corpos celestes. Selecionando dois nós é possível visualizar quando o menor caminho em anos-luz através do algoritmo de Dijkstra.
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+
+## grafo 01
+
+![Grafo 1](./assert/grafo1.png)
+  
+## grafo 02
+![Grafo 2](./assert/grafo2.png)
+
+## grafo 03
+![Grafo 3](./assert/grafo3.png)
+
+## Modelagem 3D
+
+![Grafo 1](./assert/imagem2.png)
+  
+## Exemplo de Dijkstra 1
+![Grafo 2](./assert/imagem1.png)
+
+## Exemplo de Dijkstra 2
+![Grafo 3](./assert/imagem3.png)
+
 
 ## Instalação
 **Linguagem**: Python 3.x
@@ -61,10 +81,15 @@ pip install flask
 
 ## Configuração
 
-## Utilização
+## Utilização do Jupyter
 1. Abra o arquivo "Grafo2_distancia_estrelar.ipynb" no Jupyter Notebook ou no Vscode .
 2. Execute as células de código conforme necessário para carregar e analisar os dados estelares, aplicar os algoritmos  e Prim e visualizar o grafo gerado.
 3. Certifique-se de fornecer os parâmetros de entrada relevantes, como a distância máxima da Terra e o vértice de origem.
+
+## Utilização da visualização 3D
+1. Utilize o comando 'python3 app.py'
+2. Vá para o endpoint indicado no terminal, por exemplo: ' * Running on http://127.0.0.1:5000 '
+3. Selecione dois nós do grafo
 
 ## Exemplo
 Aqui está um exemplo de como utilizar o código para criar e visualizar o grafo estelar:
@@ -89,16 +114,3 @@ destination_vertex = 'Leo'
 
 
 ```
-
-# Exemplo de Grafos 
-
-## grafo 01
-
-![Grafo 1](./assert/grafo1.png)
-  
-## grafo 02
-![Grafo 2](./assert/grafo2.png)
-
-## grafo 03
-![Grafo 3](./assert/grafo3.png)
-
